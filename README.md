@@ -25,7 +25,7 @@ Run the code from **main.py** you will find the answer of the following question
 ### Step by step:
 1. Set up VirtualBox & Vagrant
 2. Clone the repository to your local computer
-3. Download the news data and unzip file
+3. Download the news data
 4. Load the data into your local database with `psql -d news -f newsdata.sql`
 5. Run the code `python main.py`
 6. The output will be displayed in the bash
