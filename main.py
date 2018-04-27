@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import psycopg2
 
 def run_query(query):
@@ -89,8 +90,7 @@ def most_errors_date():
     results=run_query(query3)
 
     # print out the result
-    print ('\nDays with more than 1% of' 
-            ' errors:')
+    print ('\nDays with more than 1% of errors:')
     for i in results:
         date = i[0].strftime('%B %d, %Y')
         errors = str(i[1]) + '%' + ' errors'
