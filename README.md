@@ -24,8 +24,24 @@ Run the code from **main.py** you will find the answer of the following question
 
 ### Step by step:
 1. Set up VirtualBox & Vagrant
-2. Clone the repository to your local computer
-3. Download the news data
-4. Load the data into your local database with `psql -d news -f newsdata.sql`
-5. Run the code `python main.py`
-6. The output will be displayed in the bash
+2. Download or clone the [FSND-VM](https://github.com/udacity/fullstack-nanodegree-vm) repository
+3. Download [data](https://d17h27t6h515a5.cloudfront.net/topher/2016/August/57b5f748_newsdata/newsdata.zip)
+4. Unzip the file, move newsdata.sql into vagrant folder
+5. Load the data into your local database with `psql -d news -f newsdata.sql`
+6. Connect to your database using `psql -d news`, then you can explore the tables
+7. Run the code `python main.py`
+8. The output will be displayed in the bash
+
+### Launching virtual machine:
+1. Go into the downloaded fullstack-nanodegree-vm repository enter command:
+```
+  $ vagrant up
+```
+2. Log in using command:
+```
+  $ vagrant ssh
+```
+3. Change directory to vagrant using command:
+```
+  $ cd /vagrant
+```
