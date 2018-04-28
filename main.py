@@ -1,18 +1,37 @@
 #!/usr/bin/env python
 import psycopg2
 
+question1 = '\nWhat are the most popular three articles of all time?'
+question2 = '\nWho are the most popular article authors of all time?'
+question3 = ('\nOn which days did more than 1% of requests lead \
+to errors?')
+
+
+def connect(database_name='news'):
+    """connect to database and return a connection"""
+    try:
+        db = psycopg2.connect("dbname={}".format(database_name))
+        cursor = db.cursor()
+        return db, cursor
+    except Exception:
+        print("Oops! Fail to connect to database!")
+
 
 def run_query(query):
     """
-    connects the database, runs the query pass to it,
-    returns the result
+    runs the query pass to it, returns the result
     """
-    db = psycopg2.connect('dbname=news')
-    c = db.cursor()
-    c.execute(query)
-    result = c.fetchall()
+    db, cursor = connect()
+    cursor.execute(query)
+    result = cursor.fetchall()
     db.close()
     return result
+
+
+def print_results(ques, results, word):
+    print ques
+    for i in results:
+        print ('\t' + str(i[0]) + ' - ' + str(i[1]) + word)
 
 
 def top_three_articles():
@@ -31,11 +50,7 @@ def top_three_articles():
     results = run_query(query1)
 
     # print out the result
-    print ('\nThe most popular three articles of all time:')
-    for i in results:
-        title = i[0]
-        view = str(i[1])
-        print ('\t' + title + ' - ' + view + ' views')
+    print_results(question1, results, ' views')
 
 
 def most_popular_authors():
@@ -55,11 +70,7 @@ def most_popular_authors():
     results = run_query(query2)
 
     # print out the result
-    print ('\nMost popular article authors of all time:')
-    for i in results:
-        title = i[0]
-        view = str(i[1])
-        print('\t' + title + ' - ' + view + ' views')
+    print_results(question2, results, ' views')
 
 
 def most_errors_date():
@@ -68,7 +79,7 @@ def most_errors_date():
     of requests lead to errors
     """
     query3 = """
-        SELECT errors.day,
+        SELECT to_char(errors.day, 'Mon DD, YYYY'),
             round(((errors.error_requests*1.0)/total.requests)*100, 2)\
             AS percent
         FROM (
@@ -93,11 +104,7 @@ def most_errors_date():
     results = run_query(query3)
 
     # print out the result
-    print ('\nDays with more than 1% of errors:')
-    for i in results:
-        date = i[0].strftime('%B %d, %Y')
-        errors = str(i[1]) + '%' + ' errors'
-        print ('\t' + date + ' - ' + errors)
+    print_results(question3, results, '% errors')
 
 
 top_three_articles()
